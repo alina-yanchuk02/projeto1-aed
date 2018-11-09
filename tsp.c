@@ -25,7 +25,7 @@
 
 static int min_length, max_length;
 static int min_tour[max_n_cities + 1], max_tour[max_n_cities + 1];
-static long n_tours;
+static long n_tours, hist[10000];
 
 //
 // first solution (brute force, distance computed at the end, compute best and worst tours)
@@ -75,6 +75,8 @@ void tsp_v1(int n, int m, int *a)
         max_tour[i] = a[i];
       }
     }
+
+    hist[(soma < 10000) ? soma : 9999]++;
   }
 }
 
@@ -118,6 +120,7 @@ int main(int argc, char **argv)
   int n_mec, special, n, i, j, a[max_n_cities];
   char file_name[32];
   double dt1;
+  FILE *fp = NULL;
 
   n_mec = 0; // CHANGE THIS!
   special = 0;
@@ -125,7 +128,7 @@ int main(int argc, char **argv)
   printf("data for init_cities_data(%d,%d)\n", n_mec, special);
   fflush(stdout);
 
-  for (n = 3; n < 14; n++)
+  for (n = 3; n < 15; n++)
   {
     //
     // try tsp_v1
@@ -139,16 +142,25 @@ int main(int argc, char **argv)
       min_length = 1000000000;
       max_length = 0;
       n_tours = 0l;
-      //tsp_v1(n,1,a); // no need to change the starting city, as we are making a tour
-      for (j = 0; j < 1000000; j++)
+      tsp_v1(n,1,a); // no need to change the starting city, as we are making a tour
+/*       for (j = 0; j < 1000000; j++)
       {
         if (n == 12)
         {
           rand_perm(n, a);
           tsp_v2(n, 1, a);
         }
-      }
+      } */
       dt1 = elapsed_time();
+
+      fp = fopen("data.txt", "w");
+      for (int k = 0; k < 10000; k++)
+      {
+        fprintf(fp, "%d %ld\n", k, hist[k]);
+      }
+
+      fclose(fp);
+
       printf("tempo: %f\n", dt1);
       printf("tsp_v1() finished in %8.3fs (%ld tours generated)\n", dt1, n_tours);
       printf("  min %5d [", min_length);
