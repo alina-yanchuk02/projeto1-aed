@@ -31,7 +31,7 @@ int tsp_dynamic(int n, int dest, int mask)
   int i, short_distance = 10000, new_distance;
   for (i = 1; i < n; i++)
   {
-    if ((mask & (1 << i)) == 0)
+    if ((mask & (1 << i)) == 0) // evita calcular caminhos com cidades repetidas
     {
       new_distance = tsp_dynamic(n, i, mask | (1 << i)) + cities[dest].distance[i];
       if (new_distance < short_distance)
