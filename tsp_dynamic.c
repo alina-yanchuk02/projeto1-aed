@@ -69,7 +69,7 @@ int main(int argc, char **argv)
     }
 
     int best = tsp_dynamic(n, 0, 1);
-    printf("Primeiras %d cidades: %d\n", n, best);
+    printf("First %d cities: %d\n", n, best);
     printf("\n");
   }
   double dt2 = elapsed_time();
