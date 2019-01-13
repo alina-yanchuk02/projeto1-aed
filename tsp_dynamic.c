@@ -37,7 +37,6 @@ int tsp_dynamic(int n, int dest, int mask)
       if (new_distance < short_distance)
       {
         short_distance = new_distance;
-        best_path[dest][mask] = 123;
       }
     }
   }
@@ -71,10 +70,6 @@ int main(int argc, char **argv)
 
     int best = tsp_dynamic(n, 0, 1);
     printf("Primeiras %d cidades: %d\n", n, best);
-    printf("Best path: ");
-
-    printf("%d ", best_path[n - 1][(1 << n) - 1]);
-
     printf("\n");
   }
   double dt2 = elapsed_time();
